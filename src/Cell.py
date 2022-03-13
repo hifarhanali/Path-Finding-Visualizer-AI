@@ -1,9 +1,7 @@
-from tkinter.tix import ROW
-from sklearn import neighbors
-from enums.Color import Color
+from enums.Celll_Status import Cell_Status
 
 class Cell:
-    def __init__(self, x, y, parent=None, color=Color.WHITE.value, is_obstacle=False, width=5, action=None):
+    def __init__(self, x, y, parent=None, color=Cell_Status.NOT_VISITED.value, is_obstacle=False, width=5, action=None):
         self.x = x
         self.y = y
         self.parent = parent
@@ -45,43 +43,43 @@ class Cell:
         return self.f() < other.f()
     
     def is_not_visited(self):
-        return self.color == Color.WHITE.value
+        return self.color == Cell_Status.NOT_VISITED.value
     
     def is_opened(self):
-        return self.color == Color.STEEL_BLUE.value
+        return self.color == Cell_Status.OPENED.value
     
     def is_visited(self):
-        return self.color == Color.CYAN.value
+        return self.color == Cell_Status.VISITED.value
 
     def is_start(self):
-        return self.color == Color.GREEN.value
+        return self.color == Cell_Status.START.value
 
     def is_goal(self):
-        return self.color == Color.PURPLE.value
+        return self.color == Cell_Status.GOAL.value
 
     def is_obstacle(self):
-        return self.color == Color.BLACK.value
+        return self.color == Cell_Status.OBSTACLE.value
 
     def is_in_path(self):
-        return self.color == Color.YELLOW.value
+        return self.color == Cell_Status.IN_PATH.value
 
     def make_not_visited(self):
-        self.color = Color.WHITE.value
+        self.color = Cell_Status.NOT_VISITED.value
     
     def make_opened(self):
-        self.color = Color.STEEL_BLUE.value
+        self.color = Cell_Status.OPENED.value
     
     def make_visited(self):
-        self.color = Color.CYAN.value
+        self.color = Cell_Status.VISITED.value
 
     def make_start(self):
-        self.color = Color.GREEN.value
+        self.color = Cell_Status.START.value
 
     def make_goal(self):
-        self.color = Color.PURPLE.value
+        self.color = Cell_Status.GOAL.value
 
     def make_obstacle(self):
-        self.color = Color.BLACK.value
+        self.color = Cell_Status.OBSTACLE.value
 
     def make_in_path(self):
-        self.color = Color.YELLOW.value
+        self.color = Cell_Status.IN_PATH.value
