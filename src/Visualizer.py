@@ -4,7 +4,6 @@ from Helper import Helper
 from Path_Finding import Path_Finding
 
 class Visualizer:
-
     def __init__(self, WINDOW_WIDTH=900, WINDOW_HEIGHT=800, CELL_WIDTH=20, WINDOW_TITLE="A* Path Visualizer"):
         self.CELL_WIDTH = CELL_WIDTH            # width of a square cell
         self.WINDOW_WIDTH = WINDOW_WIDTH        # height of the window

@@ -20,32 +20,35 @@ class Path_Finding:
         
         opened_cells = PriorityQueue()
         opened_cells.put((start, time_count))        
-        opened_cells_hash = {start}
         
         start.g = 0
         start.h = Heuristic.manhattan(start.get_coord(), goal.get_coord())
         while not opened_cells.empty():
+            
+            # if user quit during algorithm simulation, quit window 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT: pygame.quit()         
+                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: pygame.quit()         
 
             current_cell = opened_cells.get()[0]
-            opened_cells_hash.remove(current_cell)
             
+            # if we found goal node, construct path from start to goal node
             if current_cell == goal:
-                goal.make_goal() 
+                goal.make_goal()
                 Path_Finding.__construct_path(draw, start, goal)
                 return True
             
+            # for each neighbour node update its evaluation function            
             for neighbour in current_cell.neighbours:
+                
+                # update neighbour cell a better g and h value
                 if current_cell.g + 1 < neighbour.g:
                     neighbour.g = current_cell.g + 1
                     neighbour.h = Heuristic.manhattan(neighbour.get_coord(), goal.get_coord())
                     neighbour.parent = current_cell
                     
-                    if neighbour not in opened_cells_hash:
+                    if not neighbour.is_opened():
                         time_count += 1
                         opened_cells.put((neighbour, time_count))
-                        opened_cells_hash.add(neighbour)
                         neighbour.make_opened()
                         
             draw()
