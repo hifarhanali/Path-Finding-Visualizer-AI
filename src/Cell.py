@@ -35,10 +35,8 @@ class Cell:
         self.__add_non_obstacle_neighbour(grid, (self.x-1, self.y-1))       # up left
         self.__add_non_obstacle_neighbour(grid, (self.x, self.y-1))         # up
         self.__add_non_obstacle_neighbour(grid, (self.x+1, self.y-1))       # up right
-
         self.__add_non_obstacle_neighbour(grid, (self.x-1, self.y))         # left
         self.__add_non_obstacle_neighbour(grid, (self.x+1, self.y))         # right
-
         self.__add_non_obstacle_neighbour(grid, (self.x-1, self.y+1))       # down left
         self.__add_non_obstacle_neighbour(grid, (self.x, self.y+1))         # down
         self.__add_non_obstacle_neighbour(grid, (self.x+1, self.y+1))       # down right
