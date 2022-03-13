@@ -2,12 +2,11 @@ from enum import Enum
 
 
 class Color(Enum):
-    WHITE = (255, 255, 255)
+    PAPAYA_WHIP = (255,239,213)
+    NAVAJO_WHITE = (255,222,173)
+    TAN = (210,180,140)
+    BROWN = (244,164,96)
     CYAN = (50, 200, 190)
-    LIGHT_YELLOW = (255, 225, 190)
-    MEDIUM_YELLOW = (255, 160, 60)
-    DARK_YELLOW = (215, 120, 25)
-    PURPLE = (128,0,128)
+    GREEN = (110, 180, 60)    
+    WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
-    GREEN = (110, 180, 60)
-    GREY = (128, 128, 128)

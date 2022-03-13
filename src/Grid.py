@@ -33,12 +33,12 @@ class Grid:
     def __draw_lines(self, WINDOW):
         # draw horizontal lines
         for r in range(self.ROWS):
-            pygame.draw.line(WINDOW, Color.GREY.value, (0, r * self.CELL_WIDTH),
+            pygame.draw.line(WINDOW, Color.WHITE.value, (0, r * self.CELL_WIDTH),
                              (self.COLS * self.CELL_WIDTH, r * self.CELL_WIDTH))
 
         # draw horizontal lines
         for c in range(self.COLS):
-            pygame.draw.line(WINDOW, Color.GREY.value, (c * self.CELL_WIDTH, 0),
+            pygame.draw.line(WINDOW, Color.WHITE.value, (c * self.CELL_WIDTH, 0),
                              (c * self.CELL_WIDTH, self.COLS * self.CELL_WIDTH))
 
     def __getitem__(self, cell_coord):

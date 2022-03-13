@@ -60,7 +60,7 @@ class Visualizer:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN and not is_simulation_started:
                         self.grid.update_cells_neighbours()
-                        Path_Finding.real_time_astar_algorithm(lambda: self.__draw_window(), start, goal)
+                        Path_Finding.astar_algorithm(lambda: self.__draw_window(), start, goal)
                         
                     if event.key == pygame.K_SPACE:
                         start = goal = None

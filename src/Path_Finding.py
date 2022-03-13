@@ -94,15 +94,14 @@ class Path_Finding:
             if current_cell != start: 
                 current_cell.make_visited()
             
-            if nearest_cell is None:
-                break
-
-            nearest_cell.parent = current_cell
-            nearest_cell.make_opened()
-
-            current_cell.h = nearest_cell.f()
-            current_cell = nearest_cell
-            draw()
+            if nearest_cell:
+                nearest_cell.parent = current_cell
+                nearest_cell.make_opened()
+                current_cell.h = nearest_cell.f()
+                current_cell = nearest_cell
+                draw()
+            else:
+                current_cell = start
         Path_Finding.__show_path(draw, start, goal)
     
     @staticmethod
@@ -134,9 +133,12 @@ class Path_Finding:
             
             if nearest_cell:
                 nearest_cell.parent = current_cell
+                nearest_cell.make_opened()
                 if second_nearest_cell:
                     current_cell.h = second_nearest_cell.f() 
                 current_cell = nearest_cell
                 draw()
+            else:
+                current_cell = start
 
         Path_Finding.__show_path(draw, start, goal)
