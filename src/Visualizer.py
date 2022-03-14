@@ -46,7 +46,7 @@ class Visualizer:
         clock = pygame.time.Clock()
 
         while not should_quit:
-            clock.tick(60)
+            clock.tick(10)
             for event in pygame.event.get():
                 # quit widnow
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -106,7 +106,7 @@ class Visualizer:
 
                         if event.key == pygame.K_SPACE:
                             start = goal = None
-                            self.grid.reset(False)
+                            self.grid.reset(should_remove_obstacles=False)
 
             self.__draw_window()
             pygame.display.flip()
