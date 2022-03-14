@@ -13,6 +13,17 @@ class Visualizer:
         self.grid = Grid(self.WINDOW_WIDTH,
                          self.WINDOW_HEIGHT, self.CELL_WIDTH)
 
+    def __draw_window(self):
+        self.grid.draw(self.WINDOW)
+        pygame.display.update()
+
+    def __show_path(self, path, start, goal):
+        if path:
+            for cell in path:
+                if cell != start and cell != goal:
+                    cell.make_in_path()
+                    self.__draw_window()
+
     def start(self):
         pygame.init()
         self.WINDOW = pygame.display.set_mode(
@@ -64,21 +75,21 @@ class Visualizer:
 
                 if event.type == pygame.KEYDOWN:
                     self.grid.update_cells_neighbours()
+                    path = None
                     if event.key == pygame.K_1 and not is_simulation_started:
-                        Path_Finding.astar_algorithm(
+                        path = Path_Finding.astar_algorithm(
                             lambda: self.__draw_window(), start, goal)
 
                     elif event.key == pygame.K_2 and not is_simulation_started:
-                        self.grid.update_cells_neighbours()
-                        Path_Finding.learning_real_time_astar_algorithm(
+                        path = Path_Finding.learning_real_time_astar_algorithm(
                             lambda: self.__draw_window(), start, goal)
 
                     elif event.key == pygame.K_3 and not is_simulation_started:
-                        self.grid.update_cells_neighbours()
-                        Path_Finding.real_time_astar_algorithm(
+                        path = Path_Finding.real_time_astar(
                             lambda: self.__draw_window(), start, goal)
+                    self.__show_path(path, start, goal)
 
-                    elif event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_SPACE:
                         start = goal = None
                         del self.grid
                         self.grid = Grid(self.WINDOW_WIDTH,
@@ -87,7 +98,3 @@ class Visualizer:
             self.__draw_window()
             pygame.display.flip()
         pygame.quit()
-
-    def __draw_window(self):
-        self.grid.draw(self.WINDOW)
-        pygame.display.update()

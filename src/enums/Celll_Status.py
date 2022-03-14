@@ -1,6 +1,7 @@
 from enum import Enum
 from .Color import Color
 
+
 class Cell_Status(Enum):
     NOT_VISITED = Color.PAPAYA_WHIP.value
     VISITED = Color.NAVAJO_WHITE.value
@@ -8,4 +9,4 @@ class Cell_Status(Enum):
     IN_PATH = Color.BROWN.value
     START = Color.CYAN.value
     GOAL = Color.GREEN.value
-    OBSTACLE = Color.BLACK.value
+    OBSTACLE = Color.DARK_BROWN.value

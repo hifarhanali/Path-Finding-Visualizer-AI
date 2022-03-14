@@ -32,24 +32,33 @@ class Cell:
         self.neighbours.clear()
         # add all eight members
         self.__add_non_obstacle_neighbour(
-            grid, (self.x-1, self.y-1))       # up left
-        self.__add_non_obstacle_neighbour(
             grid, (self.x, self.y-1))         # up
-        self.__add_non_obstacle_neighbour(
-            grid, (self.x+1, self.y-1))       # up right
         self.__add_non_obstacle_neighbour(
             grid, (self.x-1, self.y))         # left
         self.__add_non_obstacle_neighbour(
             grid, (self.x+1, self.y))         # right
         self.__add_non_obstacle_neighbour(
-            grid, (self.x-1, self.y+1))       # down left
-        self.__add_non_obstacle_neighbour(
             grid, (self.x, self.y+1))         # down
         self.__add_non_obstacle_neighbour(
+            grid, (self.x-1, self.y-1))       # up left
+        self.__add_non_obstacle_neighbour(
             grid, (self.x+1, self.y+1))       # down right
+        self.__add_non_obstacle_neighbour(
+            grid, (self.x+1, self.y-1))       # up right
+        self.__add_non_obstacle_neighbour(
+            grid, (self.x-1, self.y+1))       # down left
 
     def __lt__(self, other):
-        return self.f() < other.f()
+        return \
+            self.f() < other.f() or (
+                self.f() == other.f() and (
+                    self.h < other.h or (
+                        self.h == other.h and (
+                            self.g < other.g
+                        )
+                    )
+                )
+            )
 
     def is_not_visited(self):
         return self.color == Cell_Status.NOT_VISITED.value
