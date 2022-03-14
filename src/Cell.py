@@ -2,7 +2,7 @@ from enums.Celll_Status import Cell_Status
 
 
 class Cell:
-    def __init__(self, x, y, parent=None, color=Cell_Status.NOT_VISITED.value, is_obstacle=False, width=5, action=None):
+    def __init__(self, x, y, parent=None, color=Cell_Status.NOT_VISITED.value, width=5, count=0, action=None):
         self.x = x
         self.y = y
         self.parent = parent
@@ -10,6 +10,7 @@ class Cell:
         self.width = width
         self.g = self.h = float('inf')
         self.neighbours = []
+        self.count = count
         self.action = action
 
     def f(self):
@@ -54,7 +55,9 @@ class Cell:
                 self.f() == other.f() and (
                     self.h < other.h or (
                         self.h == other.h and (
-                            self.g < other.g
+                            self.g < other.g or (
+                                self.g == other.g and self.count < other.count
+                            )
                         )
                     )
                 )

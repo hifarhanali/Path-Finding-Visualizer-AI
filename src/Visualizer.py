@@ -2,6 +2,7 @@ from Grid import Grid
 import pygame
 from Helper import Helper
 from Path_Finding import Path_Finding
+from enums.Celll_Status import Cell_Status
 
 
 class Visualizer:
@@ -13,16 +14,25 @@ class Visualizer:
         self.grid = Grid(self.WINDOW_WIDTH,
                          self.WINDOW_HEIGHT, self.CELL_WIDTH)
 
+    def make_grid_from_file(self, filename, obstacle_symbol='@'):
+        with open(filename) as f:
+            cols_count = int(f.readline())
+            rows_count = int(f.readline())
+            self.WINDOW_WIDTH = cols_count * self.CELL_WIDTH
+            self.WINDOW_HEIGHT = rows_count * self.CELL_WIDTH
+            del self.grid
+            self.grid = Grid(self.WINDOW_WIDTH,
+                             self.WINDOW_HEIGHT, self.CELL_WIDTH)
+
+            for y in range(rows_count):
+                row = f.readline()
+                for x in range(cols_count):
+                    if row[x] == obstacle_symbol:
+                        self.grid[(x, y)].color = Cell_Status.OBSTACLE.value
+
     def __draw_window(self):
         self.grid.draw(self.WINDOW)
         pygame.display.update()
-
-    def __show_path(self, path, start, goal):
-        if path:
-            for cell in path:
-                if cell != start and cell != goal:
-                    cell.make_in_path()
-                    self.__draw_window()
 
     def start(self):
         pygame.init()
@@ -36,8 +46,7 @@ class Visualizer:
         clock = pygame.time.Clock()
 
         while not should_quit:
-            clock.tick(30)
-
+            clock.tick(60)
             for event in pygame.event.get():
                 # quit widnow
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -76,24 +85,28 @@ class Visualizer:
                 if event.type == pygame.KEYDOWN:
                     self.grid.update_cells_neighbours()
                     path = None
-                    if event.key == pygame.K_1 and not is_simulation_started:
-                        path = Path_Finding.astar_algorithm(
-                            lambda: self.__draw_window(), start, goal)
 
-                    elif event.key == pygame.K_2 and not is_simulation_started:
-                        path = Path_Finding.learning_real_time_astar_algorithm(
-                            lambda: self.__draw_window(), start, goal)
+                    if not is_simulation_started:
+                        if event.key == pygame.K_1:
+                            path = Path_Finding.astar(
+                                lambda: self.__draw_window(), start, goal)
 
-                    elif event.key == pygame.K_3 and not is_simulation_started:
-                        path = Path_Finding.real_time_astar(
-                            lambda: self.__draw_window(), start, goal)
-                    self.__show_path(path, start, goal)
+                        elif event.key == pygame.K_2:
+                            path = Path_Finding.learning_real_time_astar(
+                                lambda: self.__draw_window(), start, goal)
 
-                    if event.key == pygame.K_SPACE:
-                        start = goal = None
-                        del self.grid
-                        self.grid = Grid(self.WINDOW_WIDTH,
-                                         self.WINDOW_HEIGHT, self.CELL_WIDTH)
+                        elif event.key == pygame.K_3:
+                            path = Path_Finding.real_time_astar(
+                                lambda: self.__draw_window(), start, goal)
+
+                        Helper.show_path(
+                            lambda: self.__draw_window(), path, start, goal)
+
+                        is_simulation_started = False
+
+                        if event.key == pygame.K_SPACE:
+                            start = goal = None
+                            self.grid.reset(False)
 
             self.__draw_window()
             pygame.display.flip()
