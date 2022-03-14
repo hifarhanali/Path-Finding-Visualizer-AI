@@ -62,17 +62,15 @@ class Path_Finding:
     @staticmethod
     def learning_real_time_astar(draw, start, goal):
         move_generated_time = 0
-        prev_path = None
         should_run = True
         start.g = 0
         start.h = Heuristic.octile(start.get_coord(), goal.get_coord())
 
+        prev_paths = []
         while should_run:
             current_cell = start
             new_path = [current_cell]
             while current_cell != goal:
-                Helper.show_path(draw, prev_path, start, goal)
-
                 # if user quit during algorithm simulation, quit window
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -109,14 +107,16 @@ class Path_Finding:
                 move_generated_time += 1
                 new_path.append(current_cell)
 
-            if prev_path == new_path:
+            Helper.show_path(draw, new_path, start, goal)
+
+            if new_path in prev_paths:
                 should_run = False
-            prev_path = []
+
             for cell in new_path:
-                prev_path.append(cell)
                 if cell != start and cell != goal:
                     cell.make_not_visited()
-        return prev_path
+            prev_paths.append(new_path)
+        return new_path
 
     @staticmethod
     def real_time_astar(draw, start, goal):
@@ -126,7 +126,7 @@ class Path_Finding:
         current_cell = start
         path = [current_cell]
         while current_cell != goal:
-            #Helper.show_path(draw, path, start, goal)
+            Helper.show_path(draw, path, start, goal)
 
             # if user quit during algorithm simulation, quit window
             for event in pygame.event.get():

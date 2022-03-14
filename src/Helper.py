@@ -16,4 +16,4 @@ class Helper:
             for cell in path:
                 if cell != start and cell != goal:
                     cell.make_in_path()
-                    draw()
+            draw()
