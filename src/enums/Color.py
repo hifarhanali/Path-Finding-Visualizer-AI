@@ -10,3 +10,4 @@ class Color(Enum):
     GREEN = (110, 180, 60)
     WHITE = (255, 255, 255)
     DARK_BROWN = (160, 82, 45)
+    LIGHT_BLACK = (74, 74, 74)

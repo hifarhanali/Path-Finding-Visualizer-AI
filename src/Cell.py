@@ -3,6 +3,9 @@ from enums.Celll_Status import Cell_Status
 
 class Cell:
     def __init__(self, x, y, parent=None, color=Cell_Status.NOT_VISITED.value, width=5, count=0, action=None):
+        self.reset(x, y, parent, color, width, count, action)
+
+    def reset(self, x, y, parent=None, color=Cell_Status.NOT_VISITED.value, width=5, count=0, action=None):
         self.x = x
         self.y = y
         self.parent = parent

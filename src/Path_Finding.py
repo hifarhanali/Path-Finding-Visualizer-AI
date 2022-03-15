@@ -60,7 +60,7 @@ class Path_Finding:
         return None
 
     @staticmethod
-    def learning_real_time_astar(draw, start, goal):
+    def learning_real_time_astar(draw, start, goal, window, cell_width):
         move_generated_time = 0
         should_run = True
         start.g = 0
@@ -107,26 +107,30 @@ class Path_Finding:
                 move_generated_time += 1
                 new_path.append(current_cell)
 
-            Helper.show_path(draw, new_path, start, goal)
+            # remove previous path
+            if len(prev_paths):
+                Helper.clear_path(prev_paths[-1], window)
+
+            # Helper.show_path(draw, new_path, start, goal)
+            Helper.show_path(new_path, window)
 
             if new_path in prev_paths:
                 should_run = False
 
-            for cell in new_path:
-                if cell != start and cell != goal:
-                    cell.make_not_visited()
             prev_paths.append(new_path)
         return new_path
 
     @staticmethod
-    def real_time_astar(draw, start, goal):
+    def real_time_astar(draw, start, goal, window, cell_width):
         move_generated_time = 0
         start.g = 0
         start.h = Heuristic.octile(start.get_coord(), goal.get_coord())
         current_cell = start
         path = [current_cell]
         while current_cell != goal:
-            Helper.show_path(draw, path, start, goal)
+            # Helper.show_path(draw, path, start, goal)
+
+            Helper.show_path(path, window)
 
             # if user quit during algorithm simulation, quit window
             for event in pygame.event.get():
@@ -152,16 +156,15 @@ class Path_Finding:
                 # remove additional nodes i.e backtracking
                 if nearest_cell != start:
                     cell_index = path.index(nearest_cell)
-                    for i in range(cell_index, len(path)):
-                        if path[i] != start:
-                            path[i].make_not_visited()
+                    path_to_remove = path[cell_index:]
+                    Helper.clear_path(path_to_remove, window)
                     path = path[: cell_index]
+
             except ValueError:
                 pass
 
             current_cell.h = second_nearest_cell.f()
             current_cell = nearest_cell
-
             current_cell.count = move_generated_time
             move_generated_time += 1
             path.append(current_cell)

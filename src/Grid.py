@@ -16,9 +16,9 @@ class Grid:
     def reset(self, should_remove_obstacles=True):
         for row in self.grid:
             for cell in row:
-                if should_remove_obstacles or not cell.is_obstacle():
+                if not cell.is_start() and not cell.is_goal() and (should_remove_obstacles or not cell.is_obstacle()):
                     cell.make_not_visited()
-
+                cell.reset(cell.x, cell.y, color=cell.color, width=cell.width)
     # update neighbours of each node
 
     def update_cells_neighbours(self):
@@ -28,7 +28,6 @@ class Grid:
 
     # to draw a grid
     def draw(self, WINDOW):
-        WINDOW.fill(Color.WHITE.value)
         self.__draw_cells(WINDOW)
         self.__draw_lines(WINDOW)
 
@@ -36,8 +35,9 @@ class Grid:
     def __draw_cells(self, WINDOW):
         for row in self.grid:
             for cell in row:
-                pygame.draw.rect(WINDOW, cell.color,
-                                 cell.get_position() + (cell.width, cell.width))
+                if not cell.is_in_path():
+                    pygame.draw.rect(WINDOW, cell.color,
+                                     cell.get_position() + (cell.width, cell.width))
 
     # to draw horizontal and verical lines in a grid
     def __draw_lines(self, WINDOW):

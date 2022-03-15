@@ -3,6 +3,7 @@ import pygame
 from Helper import Helper
 from Path_Finding import Path_Finding
 from enums.Celll_Status import Cell_Status
+from enums.Color import Color
 
 
 class Visualizer:
@@ -39,22 +40,18 @@ class Visualizer:
         self.WINDOW = pygame.display.set_mode(
             (self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
         pygame.display.set_caption(self.WINDOW_TITLE)
+        self.WINDOW.fill(Color.WHITE.value)
 
         start = goal = None
         should_quit = False
-        is_simulation_started = False
         clock = pygame.time.Clock()
 
         while not should_quit:
-            clock.tick(10)
+            clock.tick(30)
             for event in pygame.event.get():
                 # quit widnow
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     should_quit = True
-
-                # don't disturb simulation if it's already started
-                if is_simulation_started:
-                    continue
 
                 # mosue clicks
                 mouse_pos = pygame.mouse.get_pos()
@@ -85,29 +82,23 @@ class Visualizer:
                 if event.type == pygame.KEYDOWN:
                     self.grid.update_cells_neighbours()
                     path = None
-
-                    if not is_simulation_started:
+                    if start and goal:
                         if event.key == pygame.K_1:
                             path = Path_Finding.astar(
                                 lambda: self.__draw_window(), start, goal)
 
                         elif event.key == pygame.K_2:
                             path = Path_Finding.learning_real_time_astar(
-                                lambda: self.__draw_window(), start, goal)
+                                lambda: self.__draw_window(), start, goal, self.WINDOW, self.CELL_WIDTH)
 
                         elif event.key == pygame.K_3:
                             path = Path_Finding.real_time_astar(
-                                lambda: self.__draw_window(), start, goal)
+                                lambda: self.__draw_window(), start, goal, self.WINDOW, self.CELL_WIDTH)
 
-                        Helper.show_path(
-                            lambda: self.__draw_window(), path, start, goal)
+                        Helper.show_path(path, self.WINDOW)
 
-                        is_simulation_started = False
-
-                        if event.key == pygame.K_SPACE:
-                            start = goal = None
-                            self.grid.reset(should_remove_obstacles=False)
+                    if event.key == pygame.K_SPACE:
+                        self.grid.reset(should_remove_obstacles=False)
 
             self.__draw_window()
-            pygame.display.flip()
         pygame.quit()
