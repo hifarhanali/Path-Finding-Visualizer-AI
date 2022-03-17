@@ -93,7 +93,7 @@ class Visualizer:
 
                         elif event.key == pygame.K_3:
                             path = Path_Finding.real_time_astar(
-                                lambda: self.__draw_window(), start, goal, self.WINDOW, self.CELL_WIDTH)
+                                lambda: self.__draw_window(), self.grid, start, goal, self.WINDOW, self.CELL_WIDTH)
 
                         Helper.show_path(path, self.WINDOW)
 

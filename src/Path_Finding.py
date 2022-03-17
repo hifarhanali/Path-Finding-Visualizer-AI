@@ -24,7 +24,7 @@ class Path_Finding:
         opened_cells = PriorityQueue()
         opened_cells.put(start)
         start.g = 0
-        start.h = Heuristic.octile(start.get_coord(), goal.get_coord())
+        start.h = Heuristic.euclidean(start.get_coord(), goal.get_coord())
         while not opened_cells.empty():
 
             # if user quit during algorithm simulation, quit window
@@ -45,7 +45,7 @@ class Path_Finding:
                     # update neighbour cell a better g and h value
                     if current_cell.g + 1 < neighbour.g:
                         neighbour.g = current_cell.g + 1
-                        neighbour.h = Heuristic.octile(
+                        neighbour.h = Heuristic.euclidean(
                             neighbour.get_coord(), goal.get_coord())
                         neighbour.parent = current_cell
 
@@ -93,9 +93,8 @@ class Path_Finding:
                     # remove additional nodes i.e backtracking
                     if nearest_cell != start:
                         cell_index = new_path.index(nearest_cell)
-                        for i in range(cell_index, len(new_path)):
-                            if new_path[i] != start:
-                                new_path[i].make_not_visited()
+                        path_to_remove = new_path[cell_index:]
+                        Helper.clear_path(path_to_remove, window)
                         new_path = new_path[: cell_index]
                 except ValueError:
                     pass
@@ -111,27 +110,29 @@ class Path_Finding:
             if len(prev_paths):
                 Helper.clear_path(prev_paths[-1], window)
 
-            # Helper.show_path(draw, new_path, start, goal)
-            Helper.show_path(new_path, window)
-
             if new_path in prev_paths:
                 should_run = False
+
+            # Helper.show_path(draw, new_path, start, goal)
+            Helper.show_path(new_path, window)
 
             prev_paths.append(new_path)
         return new_path
 
     @staticmethod
-    def real_time_astar(draw, start, goal, window, cell_width):
+    def real_time_astar(draw, grid, start, goal, window, cell_width):
         move_generated_time = 0
         start.g = 0
         start.h = Heuristic.octile(start.get_coord(), goal.get_coord())
         current_cell = start
         path = [current_cell]
         while current_cell != goal:
-            # Helper.show_path(draw, path, start, goal)
+            # if user quit during algorithm simulation, quit window
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    pygame.quit()
 
             Helper.show_path(path, window)
-
             # if user quit during algorithm simulation, quit window
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:

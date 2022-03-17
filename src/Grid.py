@@ -29,7 +29,7 @@ class Grid:
     # to draw a grid
     def draw(self, WINDOW):
         self.__draw_cells(WINDOW)
-        self.__draw_lines(WINDOW)
+        # self.__draw_lines(WINDOW)
 
     # to draw cells in a grid
     def __draw_cells(self, WINDOW):
