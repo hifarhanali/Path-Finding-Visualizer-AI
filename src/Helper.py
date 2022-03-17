@@ -14,15 +14,7 @@ class Helper:
 
     @staticmethod
     def get_path_points(path):
-        if not path:
-            return None
-        return [
-            (
-                cell.x * cell.width + cell.width // 2,
-                cell.y * cell.width + cell.width // 2
-            )
-            for cell in path if not cell.is_start() and not cell.is_goal()
-        ]
+        return [(cell.x * cell.width + cell.width // 2, cell.y * cell.width + cell.width // 2) for cell in path if not cell.is_start() and not cell.is_goal()] if path else None
 
     @staticmethod
     def __set_path_points_color(path):
@@ -35,20 +27,24 @@ class Helper:
     def __draw_path(window, points, path_color):
         if points and len(points) >= 2:
             pygame.draw.lines(window, path_color, False, points, 5)
-            pygame.display.flip()
+            pygame.display.update()
 
     @staticmethod
     def show_path(path, window, path_color=Color.LIGHT_BLACK.value):
         if path and len(path) >= 2:
+            Helper.clear_path(path, window)
             Helper.__set_path_points_color(path)
             points = Helper.get_path_points(path)
             Helper.__draw_path(window, points, path_color)
 
     @staticmethod
-    def clear_path(path, window):
+    def clear_path(path, window, mark_not_visited=True):
         if path:
             for cell in path:
                 if not cell.is_start() and not cell.is_goal():
-                    cell.make_not_visited()
+                    if mark_not_visited:
+                        cell.make_not_visited()
+                    else:
+                        cell.make_visited()
                     pygame.draw.rect(window, cell.color,
                                      cell.get_position() + (cell.width, cell.width))

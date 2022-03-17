@@ -7,7 +7,7 @@ from enums.Color import Color
 
 
 class Visualizer:
-    def __init__(self, WINDOW_WIDTH=900, WINDOW_HEIGHT=800, CELL_WIDTH=20, WINDOW_TITLE="A* Path Visualizer"):
+    def __init__(self, WINDOW_WIDTH=1200, WINDOW_HEIGHT=700, CELL_WIDTH=20, WINDOW_TITLE="Rescue Path Simulator"):
         self.CELL_WIDTH = CELL_WIDTH            # width of a square cell
         self.WINDOW_WIDTH = WINDOW_WIDTH        # height of the window
         self.WINDOW_HEIGHT = WINDOW_HEIGHT      # width of the window
@@ -85,20 +85,20 @@ class Visualizer:
                     if start and goal:
                         if event.key == pygame.K_1:
                             path = Path_Finding.astar(
-                                lambda: self.__draw_window(), start, goal)
+                                lambda: self.__draw_window(), self.grid, start, goal)
 
                         elif event.key == pygame.K_2:
                             path = Path_Finding.learning_real_time_astar(
-                                lambda: self.__draw_window(), start, goal, self.WINDOW, self.CELL_WIDTH)
+                                lambda: self.__draw_window(), self.grid, start, goal, self.WINDOW, self.CELL_WIDTH)
 
                         elif event.key == pygame.K_3:
                             path = Path_Finding.real_time_astar(
                                 lambda: self.__draw_window(), self.grid, start, goal, self.WINDOW, self.CELL_WIDTH)
 
+                        self.__draw_window()
                         Helper.show_path(path, self.WINDOW)
 
                     if event.key == pygame.K_SPACE:
                         self.grid.reset(should_remove_obstacles=False)
-
             self.__draw_window()
         pygame.quit()

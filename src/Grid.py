@@ -28,11 +28,11 @@ class Grid:
 
     # to draw a grid
     def draw(self, WINDOW):
-        self.__draw_cells(WINDOW)
-        # self.__draw_lines(WINDOW)
+        self.draw_cells(WINDOW)
+        self.draw_lines(WINDOW)
 
     # to draw cells in a grid
-    def __draw_cells(self, WINDOW):
+    def draw_cells(self, WINDOW):
         for row in self.grid:
             for cell in row:
                 if not cell.is_in_path():
@@ -40,16 +40,16 @@ class Grid:
                                      cell.get_position() + (cell.width, cell.width))
 
     # to draw horizontal and verical lines in a grid
-    def __draw_lines(self, WINDOW):
+    def draw_lines(self, WINDOW):
         # draw horizontal lines
         for r in range(self.ROWS):
             pygame.draw.line(WINDOW, Color.WHITE.value, (0, r * self.CELL_WIDTH),
-                             (self.COLS * self.CELL_WIDTH, r * self.CELL_WIDTH))
+                             (self.COLS * self.CELL_WIDTH, r * self.CELL_WIDTH), 5)
 
         # draw horizontal lines
         for c in range(self.COLS):
             pygame.draw.line(WINDOW, Color.WHITE.value, (c * self.CELL_WIDTH, 0),
-                             (c * self.CELL_WIDTH, self.COLS * self.CELL_WIDTH))
+                             (c * self.CELL_WIDTH, self.COLS * self.CELL_WIDTH), 5)
 
     def __getitem__(self, cell_coord):
         col, row = cell_coord
