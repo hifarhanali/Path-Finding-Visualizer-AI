@@ -32,7 +32,7 @@ class Helper:
     @staticmethod
     def show_path(path, window, path_color=Color.LIGHT_BLACK.value):
         if path and len(path) >= 2:
-            Helper.clear_path(path, window)
+            Helper.clear_path(path, window, mark_not_visited=False)
             Helper.__set_path_points_color(path)
             points = Helper.get_path_points(path)
             Helper.__draw_path(window, points, path_color)
