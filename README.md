@@ -26,7 +26,7 @@ In RTA*, the merit of a node n is f(n) = g(n) + h(n), as in A*. However, unlike 
 
 <br>
 
-![Fig. 1: Real Time A* Algorithm](/assets/images/real_time_a_star.png)
+![Fig. 2: Real Time A* Algorithm](/assets/images/real_time_a_star.png)
 
 <br><br>
 
@@ -36,7 +36,7 @@ LRTA* retains the completeness and optimality property of RTA* by repeatedly ref
 
 <br><br>
 
-![Fig. 1: Learning Real Time A* Algorithm](/assets/images/learning_real_time_a_star.png)
+![Fig. 3: Learning Real Time A* Algorithm](/assets/images/learning_real_time_a_star.png)
 
 <br>
 
