@@ -61,7 +61,7 @@ LRTA* retains the completeness and optimality property of RTA* by repeatedly ref
 
 <br>
 
-## How to use a visualizer?
+## How to use the visualizer?
     1. Left click -> to add a start, end, or obstacle node.
     2. right-click -> to remove a start, end, or obstacle node.
     3. Press 1 -> to start the simulation with the A* algorithm.
